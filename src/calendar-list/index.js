@@ -89,22 +89,25 @@ class CalendarList extends Component {
   }
 
   scrollToDay(d, offset, animated) {
-    const day = parseDate(d);
-    const diffMonths = Math.round(this.state.openDate.clone().setDate(1).diffMonths(day.clone().setDate(1)));
-    const size = this.props.horizontal ? this.calendarWidth : this.calendarHeight;
-    let scrollAmount = (size * this.pastScrollRange) + (diffMonths * size) + (offset || 0);
-    if (!this.props.horizontal) {
-      let week = 0;
-      const days = dateutils.page(day, this.props.firstDay);
-      for (let i = 0; i < days.length; i++) {
-        week = Math.floor(i / 7);
-        if (dateutils.sameDate(days[i], day)) {
-          scrollAmount += 46 * week;
-          break;
+    setTimeout(() => {
+      const day = parseDate(d);
+      const diffMonths = Math.round(this.state.openDate.clone().setDate(1).diffMonths(day.clone().setDate(1)));
+      const size = this.props.horizontal ? this.calendarWidth : this.calendarHeight;
+      let scrollAmount = (size * this.pastScrollRange) + (diffMonths * size) + (offset || 0);
+      if (!this.props.horizontal) {
+        let week = 0;
+        const days = dateutils.page(day, this.props.firstDay);
+        for (let i = 0; i < days.length; i++) {
+          week = Math.floor(i / 7);
+          if (dateutils.sameDate(days[i], day)) {
+            scrollAmount += 46 * week;
+            break;
+          }
         }
       }
-    }
-    this.listView.scrollToOffset({offset: scrollAmount, animated});
+      this.listView.scrollToOffset({offset: scrollAmount, animated});
+      console.log("Scrolling to day fix");
+    }, 10);
   }
 
   scrollToMonth(m) {
